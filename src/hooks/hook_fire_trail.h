@@ -1,6 +1,7 @@
 void* ASMFire_Trail_jmpback;
 void* ASMAddBuff;
 void* ASMcheck_for_villager_jmpback;
+void* ASMspecbyteret;
 
 cube::Buff* ASMBuffPtr;
 
@@ -41,10 +42,37 @@ void no_optimize ASMcheck_for_villager() {
         "jmp [ASMcheck_for_villager_jmpback] \n"
 
         "ASMVillagerlbl: \n"
-
         "cmp byte ptr [rcx+0x14C], 4 \n"
         "jmp [ASMcheck_for_villager_jmpback] \n"
        );
+}
+
+void no_optimize ASMspecbyte() {
+    asm("cmp byte ptr [rcx+0x14C], 5 \n"
+        "jne nochangebytelbl \n"
+        "cmp byte ptr [rcx+0x14D], 0 \n"
+        "jmp [ASMspecbyteret] \n"
+
+        "nochangebytelbl: \n"
+        "cmp byte ptr [rcx+0x14D], 1 \n"
+        "jmp [ASMspecbyteret] \n"
+       );
+}
+
+void change_spec_byte(void* base) {
+  int offset = 0x8F2BA;
+  WriteByte(base+offset, 0xE9);
+  WriteByte(base+offset+0x01, 0x60);
+  WriteByte(base+offset+0x02, 0xFD);
+  WriteByte(base+offset+0x03, 0xFC);
+  WriteByte(base+offset+0x04, 0xFF);
+  WriteByte(base+offset+0x05, 0x90);
+  WriteByte(base+offset+0x06, 0x90);
+}
+
+void hook_spec_byte(void* base){
+  WriteFarJMP(base+0x5F01F, (void*)&ASMspecbyte);
+  ASMspecbyteret = (void*)base+0x8F2C1;
 }
 
 void add_fire_trail(void* base){
@@ -57,13 +85,15 @@ void add_fire_trail(void* base){
   ASMBuffPtr->modifier = 0.5f;
   ASMBuffPtr->duration = 1000.0f;
 }
-
+  
 void check_for_villager(void* base){
   WriteFarJMP(base+0x8F2AA, (void*)&ASMcheck_for_villager);
   ASMcheck_for_villager_jmpback = (void*)base+0x8F2B8;
 }
 
 void hook_fire_trail(void* base){
+  change_spec_byte(base);
+  hook_spec_byte(base);
   check_for_villager(base);
   add_fire_trail(base);
 }
