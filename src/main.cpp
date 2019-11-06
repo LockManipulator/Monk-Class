@@ -26,12 +26,19 @@ Code caves used:
 50301
 1694B0
 1694C2
-52B9A
-52C0A
+//5F01F
+
 
 To do:
-1. Fix ultimate name (use chris's method with dict_en.xml?)
-2. Fix specialization and name (use chris's method with dict_en.xml?)
-3. Fix crafting (allow cobwebs and cotton to be make into plain silk)
+(test getting hit by every enemy ability)
+
+1. Get working with new sdk and mod launcher
+2. Weapon chests/treasure/POI's only drop armor.
+3. Fix crafting tab being shifted over.
+4. Fix ultimate name (use chris's method with dict_en.xml?). Name of "Second chance"?
+5. Fix specialization (needs to be default 0) and name (use chris's method with dict_en.xml?)
+6. Fix shift ability UI label
+7. Fix crafting (allow cobwebs and cotton to be make into plain silk)
+8. Fix not looking invis when using ult
 
 */
