@@ -29,18 +29,19 @@ __attribute__((naked)) void ASMUltimateInsert() {
 		"mov [rdi+0x180], eax \n"
 		*/
 
-		"movq rbx, xmm0 \n"
-		"call get_max_hp \n"
-		"movq rax, xmm0 \n"
-		"mov [rdi+0x180], eax \n"
-		"movq xmm0, rbx \n"
+		"movq rbx, xmm0 \n" //save xmm0
+		PREPARE_STACK
+		"call get_max_hp \n" //put max hp variable into xmm0
+		RESTORE_STACK
+		"movq [rdi+0x180], xmm0 \n" //move xmm0 to rdi and offset
+		"movq xmm0, rbx \n" //restore xmm0
 
 		POP_ALL
 
 		DEREF_JMP(ASMUltimateInsert_jmpback)
 
 		"ASMUltimateInsert_jmpback_lbl: \n"
-		DEREF_JMP(ASMAdd_Ult) //supposed to be call, does that matter?
+		"call [ASMAdd_Ult] \n"
 		DEREF_JMP(ASMUltimateInsert_jmpback)
 		".att_syntax \n"
 

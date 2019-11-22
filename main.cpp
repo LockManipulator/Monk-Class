@@ -16,6 +16,7 @@
 #include "src/hooks/hook_customclass_nompdrain.h"
 #include "src/hooks/hook_add_flamerush.h"
 #include "src/hooks/hook_item_restriction_bypass.h"
+#include "src/hooks/fix_treasure.h"
 
 void* Offset(void* x1, uint64_t x2) {
 	return (void*)((char*)x1 + x2);
@@ -44,6 +45,7 @@ class Mod : GenericMod {
 		hook_customclass_no_mp_drain();
 		hook_flamerush();
 		hook_item_restriction_bypass();
+		treasure_fix();
 	}
 
 	virtual void OnGameTick(cube::Game* game) override {
@@ -70,10 +72,9 @@ EXPORT Mod* MakeMod() {
 To do:
 (test getting hit by every enemy ability)
 
-1. If weapon chests/treasure/POI's wants to drop a weapon, turn it into armor.
-2. Fix crafting tab being shifted over.
-3. Fix crafting (allow cobwebs and cotton to be made into plain silk)
-4. Fix ultimate name (use chris's method with dict_en.xml?). Name of "Second chance"?
-5. Fix not looking invis when using ult or don't go invis
-6. Fix shift ability UI label
+1. Fix crafting tab being shifted over.
+2. Fix crafting (allow cobwebs and cotton to be made into plain silk)
+3. Fix ultimate name (use chris's method with dict_en.xml?). Name of "Second chance"?
+4. Fix not looking invis when using ult or don't go invis
+5. Fix shift ability UI label
 */
