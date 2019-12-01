@@ -1,5 +1,6 @@
 GETTER_VAR(void*, ASMBypassWeapon_retn);
 GETTER_VAR(void*, ASMWeaponCheck);
+GETTER_VAR(void*, ASMOrigjmpback);
 
 __attribute__((naked)) void ASMBypassWeapon() {
 	asm(".intel_syntax \n"
@@ -9,6 +10,10 @@ __attribute__((naked)) void ASMBypassWeapon() {
 		"jbe bypass_WPN_lbl2 \n"
 		"cmp al, 7 \n"
 		"ja bypass_WPN_lbl2 \n"
+		"cmp rdx, 5 \n"
+		"je bypass_WPN_lbl2 \n"
+		POP_ALL
+		DEREF_JMP(ASMOrigjmpback)
 
 		"bypass_WPN_lbl: \n"
 		"cmp rdx, 5 \n"
@@ -33,6 +38,7 @@ void bypass_weapon_restriction_1() {
 	WriteFarJMP(Offset(base, 0x1094F7), (void*)&ASMBypassWeapon);
 	ASMBypassWeapon_retn = (base + 0x109677);
 	ASMWeaponCheck = (base + 0x109555);
+	ASMOrigjmpback = (base + 0x109509);
 }
 
 void hook_item_restriction_bypass() {

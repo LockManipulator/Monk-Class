@@ -10,7 +10,6 @@
 #include <windows.h>
 
 #include "src/hooks/menu_hook.h"
-//#include "src/hooks/hook_custom_damage.h"
 #include "src/hooks/hook_add_ult.h"
 #include "src/hooks/hook_new_ult.h"
 #include "src/hooks/hook_customclass_nompdrain.h"
@@ -29,6 +28,7 @@ void Popup(const char* title, const char* msg) {
 class Mod : GenericMod {
 	char* base = (char*)CWBase();
 	bool init = false;
+	bool used_monk = false;
 	//new damagae calculations here
 	virtual void OnCreatureAttackPowerCalculated(cube::Creature* creature, float* power) {
 		if (cube::GetGame()->world->local_creature == creature) {
@@ -39,7 +39,6 @@ class Mod : GenericMod {
 
 	virtual void Initialize() override {
 		menu_hook();
-		//hook_customclass_damage();
 		hook_customclass_ultimate();
 		hook_customclass_new_ultimate();
 		hook_customclass_no_mp_drain();
@@ -51,14 +50,26 @@ class Mod : GenericMod {
 	virtual void OnGameTick(cube::Game* game) override {
 		if (!init) {
 			init = true;
-
-			game->GetPlayer()->entity_data.specialization = 0;
-
+						
 			std::pair<uint32_t, uint32_t> def;
 			def.first = 5;
 			def.second = 0;
 			std::wstring specName(L"SpecializationFire");
 			game->speech.specialization_type_id_map.insert_or_assign(def, specName);		
+		}
+		if (game->GetPlayer()->entity_data.classType == 5) {
+			if (!used_monk) {
+				used_monk = true;
+				game->GetPlayer()->entity_data.specialization = 0;
+
+				std::wstring ultName(L"SkillBulwark");
+				game->speech.skill_type_id_map.insert_or_assign(109, ultName);
+			}
+		}
+		else if (used_monk){
+			used_monk = false;
+			std::wstring ultName(L"SkillCamouflage");
+			game->speech.skill_type_id_map.insert_or_assign(109, ultName);
 		}
 	}
 
@@ -74,7 +85,5 @@ To do:
 
 1. Fix crafting tab being shifted over.
 2. Fix crafting (allow cobwebs and cotton to be made into plain silk)
-3. Fix ultimate name (use chris's method with dict_en.xml?). Name of "Second chance"?
-4. Fix not looking invis when using ult or don't go invis
-5. Fix shift ability UI label
+3. Fix shift ability UI label
 */

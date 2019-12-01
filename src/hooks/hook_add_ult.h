@@ -6,7 +6,7 @@ __attribute__((naked)) void ASMUltimateActionInsert() {
 	asm(".intel_syntax \n"
 		"jz ASMUltimateActionInsert_oldCode_lbl \n"
 		"sub edx, 1 \n"
-		"je ASMUltimateActionInsert_rogue_lbl \n"
+		"jz ASMUltimateActionInsert_rogue_lbl \n"
 		"cmp edx, 1 \n"
 		"jnz ASMUltimateActionInsert_zero_return_lbl \n"
 		// Class = 5, aka villager
@@ -18,6 +18,9 @@ __attribute__((naked)) void ASMUltimateActionInsert() {
 
 		"ASMUltimateActionInsert_rogue_lbl: \n"
 		"cmp [rcx+0x14D], r8b \n"
+		"mov eax, 0x8D \n"
+		"mov edx, 0x6D \n"
+		"cmovz eax, edx \n"
 		DEREF_JMP(ASMUltimateActionInsert_jmpback)
 
 		"ASMUltimateActionInsert_oldCode_lbl: \n"
@@ -29,7 +32,7 @@ __attribute__((naked)) void ASMUltimateActionInsert() {
 void customclass_action_insert() {
 	char* base = (char*)CWBase();
 	WriteFarJMP(Offset(base, 0x656F7), (void*)&ASMUltimateActionInsert);
-	ASMUltimateActionInsert_jmpback = (base + 0x65705);
+	ASMUltimateActionInsert_jmpback = (base + 0x65712);
 	ASMUltimateActionInsert_oldCode_jmp = (base + 0x65717);
 	ASMUltimateActionInsert_zero_return_jmp = (base + 0x65713);
 }

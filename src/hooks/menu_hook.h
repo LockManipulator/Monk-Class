@@ -3,6 +3,7 @@ GETTER_VAR(void*, ASMSetClassName_1_ret);
 GETTER_VAR(void*, ASMSetClassName_2_ret);
 GETTER_VAR(void*, ASMSetSpecializationName_0_ret);
 GETTER_VAR(void*, vill_spec_ret);
+GETTER_VAR(void*, is_rogue_0);
 
 const char customclassname_0[] = "Monk";
 const char roguename_0[] = "Rogue";
@@ -98,7 +99,11 @@ __attribute__((naked)) void ASMSetSpecializationName_0() {
 
 		"roguespec_lbl: \n"
 		"cmp byte ptr [rdx+0x14D], 0 \n"
+		"jnz FuckChrisBecauseHeManglesFlagsBecauseHeIsScaredOfAssembly_lbl \n"
 		DEREF_JMP(ASMSetSpecializationName_0_ret)
+
+		"FuckChrisBecauseHeManglesFlagsBecauseHeIsScaredOfAssembly_lbl: \n"
+		DEREF_JMP(is_rogue_0)
 		".att_syntax \n"
 	);
 }
@@ -106,8 +111,9 @@ __attribute__((naked)) void ASMSetSpecializationName_0() {
 void set_spec_name() {
 	char* base = (char*)CWBase();
 	WriteFarJMP(Offset(base, 0x26F736), (void*)&ASMSetSpecializationName_0);
-	ASMSetSpecializationName_0_ret = (base + 0x26F746);
+	ASMSetSpecializationName_0_ret = (base + 0x26F748);
 	vill_spec_ret = (base + 0x26F74F);
+	is_rogue_0 = (base + 0x26F759);
 }
 
 void set_class_name() {
