@@ -38,6 +38,16 @@ class Mod : GenericMod {
 	}
 
 	virtual void Initialize() override {
+		//fixes crafting tabs
+		char* base = (char*)CWBase();
+		int offset = 0x107721;
+		WriteByte(base + offset, 0x90);
+		WriteByte(base + offset + 0x01, 0x90);
+		WriteByte(base + offset + 0x02, 0x90);
+		WriteByte(base + offset + 0x03, 0x90);
+		WriteByte(base + offset + 0x04, 0x90);
+		WriteByte(base + offset + 0x05, 0x90);
+
 		menu_hook();
 		hook_customclass_ultimate();
 		hook_customclass_new_ultimate();
