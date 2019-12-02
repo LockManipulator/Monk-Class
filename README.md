@@ -9,6 +9,6 @@ Installation:
 Use with Chris's latest mod launcher version https://github.com/ChrisMiuchiz/Cube-World-Mod-Launcher/releases. Just put the LichModsMonkClass.dll into your mods folder. Basically, your Cube World folder should contain "CubeModLoader.fip" and a "Mods" folder. Your "Mods" folder should contain LichModsMonkClass.dll. 
 
 KNOWN BUGS:
-Crafting tabs are broken right now and you can't really craft.
+None
 
 <sup>*Lich Group owned and operated by Nichiren and Lock</sup>
