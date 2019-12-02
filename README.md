@@ -1,3 +1,4 @@
+# By the Lich Group<sup>tm</sup>  
 Only 1 specialization, so changing it in a village just doesn't work. 
 
 Class info: 
@@ -8,3 +9,4 @@ Use with Chris's latest mod launcher version https://github.com/ChrisMiuchiz/Cub
 
 KNOWN BUGS:
 Crafting tabs are broken right now and you can't really craft.
+<sup>*Lich Group owned and operated by Nichiren and Lock</sup>
