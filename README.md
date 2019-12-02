@@ -9,4 +9,5 @@ Use with Chris's latest mod launcher version https://github.com/ChrisMiuchiz/Cub
 
 KNOWN BUGS:
 Crafting tabs are broken right now and you can't really craft.
+
 <sup>*Lich Group owned and operated by Nichiren and Lock</sup>
