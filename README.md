@@ -1,4 +1,5 @@
 # By the Lich Group<sup>tm</sup>  
+
 Only 1 specialization, so changing it in a village just doesn't work. 
 
 Class info: 
